@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Музыкальный плеер</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .upload-form {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .song-item {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Музыкальный плеер</h1>
+
+<div class="upload-form">
+    <form method="post" enctype="multipart/form-data" action="/upload">
+        <input type="text" name="title" placeholder="Название трека" required>
+        <input type="file" name="file" accept="audio/mpeg" required>
+        <button type="submit">Загрузить</button>
+    </form>
+</div>
+
+<div th:each="song : ${songs}" class="song-item">
+    <h3 th:text="${song.title}"></h3>
+    <audio controls>
+        <source th:src="@{/songs/{id}(id=${song.id})}" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+    </audio>
+</div>
+</body>
+</html>
